@@ -415,10 +415,11 @@ export default function CheckoutPage() {
                     <div className="max-w-2xl mx-auto py-10">
                         <style>{`
                             @media print {
-                                body > *:not(#invoice-root) { display: none !important; }
-                                #invoice-root { display: block !important; }
+                                body * { visibility: hidden; }
+                                #invoice-root, #invoice-root * { visibility: visible; }
+                                #invoice-root { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 0; }
                                 .no-print { display: none !important; }
-                                .invoice-card { box-shadow: none !important; border: 1px solid #ddd !important; }
+                                .invoice-card { box-shadow: none !important; border: 1px solid #ccc !important; }
                             }
                             @keyframes invoicePop { from{opacity:0;transform:scale(.97) translateY(12px)} to{opacity:1;transform:scale(1) translateY(0)} }
                             .invoice-animate { animation: invoicePop .5s ease both; }
