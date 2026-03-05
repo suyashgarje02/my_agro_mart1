@@ -110,11 +110,13 @@ export default function ProductsPage() {
       params.append("limit", "12")
       params.append("page", String(page))
       const res = await api.get(`/products?${params.toString()}`)
-      setProducts(res.products || res.data || [])
-      // Backend returns pagination object
-      if (res.pagination) {
-        setTotalPages(res.pagination.pages || 1)
-        setTotalCount(res.pagination.total || 0)
+
+setProducts(res.data?.data || [])
+
+if (res.data?.pagination) {
+  setTotalPages(res.data.pagination.pages || 1)
+  setTotalCount(res.data.pagination.total || 0)
+
       }
     } catch { setProducts([]) } finally { setLoading(false) }
   }
