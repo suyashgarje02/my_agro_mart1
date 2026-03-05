@@ -1,4 +1,4 @@
-const API_BASE = "https://agro-mart1-backend.onrender.com/api"
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "https://agro-mart1-backend.onrender.com/api"
 
 export class ApiError extends Error {
     status: number
