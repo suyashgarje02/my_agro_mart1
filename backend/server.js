@@ -20,24 +20,25 @@ connectDB()
 app.use(helmet())
 
 // CORS Configuration - Allow frontend to communicate with backend
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // Allow requests with no origin (e.g., curl, Postman) or any localhost port
-      if (!origin || /^http:\/\/localhost(:\d+)?$/.test(origin)) {
-        return callback(null, true)
-      }
-      const allowedOrigin = process.env.FRONTEND_URL
-      if (allowedOrigin && origin === allowedOrigin) {
-        return callback(null, true)
-      }
+const corsOptions = {
+  origin: (origin, callback) => {
+    const allowedOrigins = [
+      process.env.FRONTEND_URL,
+      "https://my-agro-mart1.vercel.app",
+      "http://localhost:3000"
+    ].filter(Boolean)
+
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true)
+    } else {
       callback(new Error("Not allowed by CORS"))
-    },
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  }),
-)
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}
+app.use(cors(corsOptions))
 
 // Request Logging - Morgan for HTTP request logging
 app.use(morgan("dev"))
